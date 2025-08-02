@@ -69,11 +69,13 @@ fn (mut e Encoder) str() string {
 }
 
 fn (mut e Encoder) encode_value[T](val T, tagname ?string) {
-	mut open_tag := opentag(typeof[T]().name)
-	mut close_tag := closetag(typeof[T]().name)
+	mut open_tag, mut close_tag := '', ''
 	if tagname != none {
 		open_tag = opentag(tagname)
 		close_tag = closetag(tagname)
+	} else {
+		open_tag = opentag(typeof[T]().name)
+		close_tag = closetag(typeof[T]().name)
 	}
 	line_prefix := e.make_prefix()
 	$if T is $string {
